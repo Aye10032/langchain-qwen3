@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "An integration package connecting Qwen3 and LangChain"
 authors = []
 readme = "README.md"
-repository = "https://github.com/langchain-ai/langchain"
+repository = "https://github.com/Aye10032/langchain-qwen3"
 license = "MIT"
 
 [tool.mypy]
