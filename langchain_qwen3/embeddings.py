@@ -16,58 +16,59 @@ class Qwen3Embeddings(Embeddings):
 
             pip install -U langchain-qwen3
 
-    # TODO: Populate with relevant params.
-    Key init args — completion params:
+    Key init args:
         model: str
-            Name of Qwen3 model to use.
+            Name of Qwen3 model to use. Defaults to 'Qwen/Qwen3-Embedding-0.6B'.
+        max_length: int
+            Maximum sequence length for tokenization. Defaults to 8192.
+        device: Optional[str]
+            Device to run the model on ('cpu', 'cuda:0', etc.). 
+            If None, automatically uses CUDA if available, otherwise CPU.
+        model_kwargs: Optional[dict[str, Any]]
+            Additional arguments to pass to the model and tokenizer.
+        use_modelscope: bool
+            Whether to use modelscope instead of transformers. Defaults to False.
 
-    See full list of supported init args and their descriptions in the params section.
-
-    # TODO: Replace with relevant init params.
     Instantiate:
         .. code-block:: python
 
             from langchain_qwen3 import Qwen3Embeddings
 
+            embed = Qwen3Embeddings()
+
+            # or
             embed = Qwen3Embeddings(
-                model='...'
-                # api_key="...",
-                # other params...
+                model='Qwen/Qwen3-Embedding-0.6B',
+                max_length=4096,
+                device='cuda:0',
+                use_modelscope=True
             )
 
     Embed single text:
         .. code-block:: python
 
             input_text = 'The meaning of life is 42'
-            embed.embed_query(input_text)
+            embeddings = embed.embed_query(input_text)
+            print(f"Embedding dimension: {len(embeddings)}")
+            # Output: Embedding dimension: 1024
 
+    Embed multiple texts:
         .. code-block:: python
 
-            # TODO: Example output.
+            input_texts = ["Document 1 content", "Document 2 content"]
+            embeddings = embed.embed_documents(input_texts)
+            print(f"Number of documents: {len(embeddings)}")
+            print(f"Embedding dimension: {len(embeddings[0])}")
+            # Output: 
+            # Number of documents: 2
+            # Embedding dimension: 1024
 
-    # TODO: Delete if token-level streaming isn't supported.
-    Embed multiple text:
+    Using with task instructions:
         .. code-block:: python
 
-             input_texts = ["Document 1...", "Document 2..."]
-            embed.embed_documents(input_texts)
-
-        .. code-block:: python
-
-            # TODO: Example output.
-
-    # TODO: Delete if native async isn't supported.
-    Async:
-        .. code-block:: python
-
-            await embed.aembed_query(input_text)
-
-            # multiple:
-            # await embed.aembed_documents(input_texts)
-
-        .. code-block:: python
-
-            # TODO: Example output.
+            task = 'Given a web search query, retrieve relevant passages that answer the query'
+            query = embed.get_detailed_instruct(task, 'Explain gravity')
+            embeddings = embed.embed_query(query)
 
     """
 

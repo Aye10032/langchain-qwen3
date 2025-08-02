@@ -6,7 +6,7 @@ from langchain_qwen3.embeddings import Qwen3Embeddings
 from langchain_tests.unit_tests import EmbeddingsUnitTests
 
 
-class TestParrotLinkEmbeddingsUnit(EmbeddingsUnitTests):
+class TestQwen3EmbeddingsUnit(EmbeddingsUnitTests):
     @property
     def embeddings_class(self) -> Type[Qwen3Embeddings]:
         return Qwen3Embeddings
